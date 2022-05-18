@@ -9,7 +9,7 @@ PyDCML provides a simple formula interface that allows users to define observed 
 
     V1 = BETA_COST*ALT1_COST + BETA_DUR*ALT1_DURATION + ...
 
-Read the `documentation <https://fmpr.github.io/pyDCML/intro.html>`_ for additonal details, demos, model extensions, etc.
+Read the `Documentation <https://fmpr.github.io/pyDCML/intro.html>`_ for additonal details, demos, model extensions, etc.
 
 ######################## 
 Supported models
@@ -21,7 +21,7 @@ Besides core implementations of Multinomial Logit (MNL) and Mixed Logit (MXL) mo
 * Mixed Logit models with Automatic Relevance Determination (originally proposed in [Ref3]_ for MNL models)
 * Mixed Logit models with ordered responses
 
-All these model extensions leverage PyDCML's flexibility and modular design. See :ref:`understanding` for a detailed explanation of how PyDCML is implemented, and check out :ref:`extending` for a tutorial on how to extend and implement new models in PyDCML. 
+All these model extensions leverage PyDCML's flexibility and modular design. See `How PyDCML works <https://fmpr.github.io/pyDCML/understanding.html>`_ for a detailed explanation of how PyDCML is implemented, and check out `Extending PyDCML <https://fmpr.github.io/pyDCML/extending.html>`_ for a tutorial on how to extend and implement new models in PyDCML. 
 
 ######################## 
 Bayesian inference
@@ -35,7 +35,7 @@ Inference of Discrete Choice Models in PyDCML is done using Stochastic Variation
     :alt: Scalability of Amortized VI for Mixed Logit Models
     :figclass: align-center
 
-    Scalability of Amortized VI for Mixed Logit Models when compared with traditional estimation methods such as Maximum Simulated Likelihood Estimation (MSLE) and Gibbs sampling. See :ref:`demos`.
+    Scalability of Amortized VI for Mixed Logit Models when compared with traditional estimation methods such as Maximum Simulated Likelihood Estimation (MSLE) and Gibbs sampling. See `Demos <https://fmpr.github.io/pyDCML/demos.html>`_ :ref:`demos`.
     
 ######################## 
 References
