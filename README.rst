@@ -29,7 +29,7 @@ Bayesian inference
 
 Inference of Discrete Choice Models in PyDCML is done using Stochastic Variational Inference (SVI). Thanks to the efficient PyTorch implementation that can leverage modern GPUs with `Cuda <https://developer.nvidia.com/cuda-toolkit/>`_ support, PyDCML is able to scale inference to large datasets. Additionally, PyDCML can make use of Neural Networks to amortize the cost of Variational Inference (Amortized VI), as proposed in [Ref4]_, thereby achieving **computational speedups of orders of magnitude when compared with traditional estimation methods** for Mixed Logit Models. 
 
-.. figure:: https://fmpr.github.io/pyDCML/_images/scalability2.png
+.. figure:: jp-book/images/scalability2.png
     :width: 500px
     :align: center
     :alt: Scalability of Amortized VI for Mixed Logit Models
