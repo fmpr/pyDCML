@@ -1,0 +1,19 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: usage
+- file: demos
+  sections:
+  - file: demos/mxl-sim500
+  - file: demos/mxl-toyota
+  - file: demos/avi-sim10000
+- file: understanding
+- file: extending
+- file: extensions
+  sections:
+  - file: extensions/mxl_ard
+  - file: extensions/nnet_utility
+  - file: extensions/ordered_logit

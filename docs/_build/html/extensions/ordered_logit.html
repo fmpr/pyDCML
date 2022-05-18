@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Mixed ordered logit &#8212; PyDCML documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Neural networks in utilities" href="nnet_utility.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">PyDCML documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Introduction to PyDCML
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../usage.html">
+   Basic usage
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../demos.html">
+   Demos
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../demos/mxl-sim500.html">
+     Mixed logit with simulated data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../demos/mxl-toyota.html">
+     Mixed logit with Toyota data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../demos/avi-sim10000.html">
+     Amortized variational inference
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../understanding.html">
+   How PyDCML works
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../extending.html">
+   Extending PyDCML
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../extensions.html">
+   Extensions
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="mxl_ard.html">
+     Mixed logit with ARD
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="nnet_utility.html">
+     Neural networks in utilities
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Mixed ordered logit
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/extensions/ordered_logit.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/fmpr/amortized-mxl"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/fmpr/amortized-mxl/issues/new?title=Issue%20on%20page%20%2Fextensions/ordered_logit.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/fmpr/amortized-mxl/master?urlpath=tree/docs/extensions/ordered_logit.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-previously-simulated-data">
+   Import previously simulated data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-logit-specification">
+   Mixed Logit specification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bayesian-mixed-ordered-logit-model-in-pytorch">
+   Bayesian Mixed Ordered Logit Model in PyTorch
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-details">
+   Implementation details
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Mixed ordered logit</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-previously-simulated-data">
+   Import previously simulated data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mixed-logit-specification">
+   Mixed Logit specification
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bayesian-mixed-ordered-logit-model-in-pytorch">
+   Bayesian Mixed Ordered Logit Model in PyTorch
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-details">
+   Implementation details
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="mixed-ordered-logit">
+<h1>Mixed ordered logit<a class="headerlink" href="#mixed-ordered-logit" title="Permalink to this headline">¶</a></h1>
+<p>We begin by performing the necessary imports:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;0&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;/home/rodr/code/amortized-mxl-dev/release&quot;</span><span class="p">)</span> 
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="c1"># Fix random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="import-previously-simulated-data">
+<h2>Import previously simulated data<a class="headerlink" href="#import-previously-simulated-data" title="Permalink to this headline">¶</a></h2>
+<p>For this demo, we will use previously generated simulated data. Since this is artificial data, we actually know the parameter values that were used to generate the choices: [1, -1, 1, -1]. The (log) cutoff points used to generate the data were: [-0.7 -0.2  0.5]. Our goal is to see whether our model implementation can accurately recover the true parameters that were used to generate the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/fake_data_ordered.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">num_resp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;indID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_resp</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>choice</th>
+      <th>x0</th>
+      <th>x1</th>
+      <th>x2</th>
+      <th>x3</th>
+      <th>indID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.585995</td>
+      <td>0.667338</td>
+      <td>0.681352</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.476451</td>
+      <td>0.026819</td>
+      <td>0.443944</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.753613</td>
+      <td>0.768395</td>
+      <td>0.468803</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>1.0</td>
+      <td>0.605222</td>
+      <td>0.862393</td>
+      <td>0.434364</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.142990</td>
+      <td>0.001069</td>
+      <td>0.608124</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="mixed-logit-specification">
+<h2>Mixed Logit specification<a class="headerlink" href="#mixed-logit-specification" title="Permalink to this headline">¶</a></h2>
+<p>We now make use of the developed formula interface to specify the utilities of the mixed logit model.</p>
+<p>We begin by defining the fixed effects parameters, the random effects parameters, and the observed variables. This creates instances of Python objects that can be put together to define the utility functions for the different alternatives.</p>
+<p>Once the utilities are defined, we collect them in a Python dictionary mapping alternative names to their corresponding expressions.</p>
+<p>Note that, since this is an ordinal regression model, there is only one single utility. The observed values correspond to different “levels” of the response variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">core.dcm_interface</span> <span class="kn">import</span> <span class="n">FixedEffect</span><span class="p">,</span> <span class="n">RandomEffect</span><span class="p">,</span> <span class="n">ObservedVariable</span>
+<span class="kn">import</span> <span class="nn">torch.distributions</span> <span class="k">as</span> <span class="nn">dists</span>
+
+<span class="c1"># define fixed effects parameters</span>
+<span class="n">B_X0</span> <span class="o">=</span> <span class="n">FixedEffect</span><span class="p">(</span><span class="s1">&#39;BETA_X0&#39;</span><span class="p">)</span>
+<span class="n">B_X1</span> <span class="o">=</span> <span class="n">FixedEffect</span><span class="p">(</span><span class="s1">&#39;BETA_X1&#39;</span><span class="p">)</span>
+
+<span class="c1"># define random effects parameters</span>
+<span class="n">B_X2</span> <span class="o">=</span> <span class="n">RandomEffect</span><span class="p">(</span><span class="s1">&#39;BETA_X2&#39;</span><span class="p">)</span>
+<span class="n">B_X3</span> <span class="o">=</span> <span class="n">RandomEffect</span><span class="p">(</span><span class="s1">&#39;BETA_X3&#39;</span><span class="p">)</span>
+
+<span class="c1"># define observed variables</span>
+<span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = ObservedVariable(&#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">attr</span><span class="p">,</span><span class="n">attr</span><span class="p">))</span>
+
+<span class="c1"># define utility functions</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">B_X0</span><span class="o">*</span><span class="n">x0</span> <span class="o">+</span> <span class="n">B_X1</span><span class="o">*</span><span class="n">x1</span> <span class="o">+</span> <span class="n">B_X2</span><span class="o">*</span><span class="n">x2</span> <span class="o">+</span> <span class="n">B_X3</span><span class="o">*</span><span class="n">x3</span>
+
+<span class="c1"># associate utility functions with the names of the alternatives</span>
+<span class="n">utilities</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ALT1&quot;</span><span class="p">:</span> <span class="n">V1</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We are now ready to create a Specification object containing the utilities that we have just defined. Note that we must also specify the type of choice model to be used - a mixed logit model (MXL) in this case.</p>
+<p>Note that we can inspect the specification by printing the dcm_spec object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">core.dcm_interface</span> <span class="kn">import</span> <span class="n">Specification</span>
+
+<span class="c1">#Logit(choice, utilities, availability, df)</span>
+<span class="c1">#Logit(choice_test, utilities, availability_test, df_test)</span>
+
+<span class="c1"># create MXL specification object based on the utilities previously defined</span>
+<span class="n">dcm_spec</span> <span class="o">=</span> <span class="n">Specification</span><span class="p">(</span><span class="s1">&#39;MXL&#39;</span><span class="p">,</span> <span class="n">utilities</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dcm_spec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>----------------- MXL specification:
+Alternatives: [&#39;ALT1&#39;]
+Utility functions:
+   V_ALT1 = BETA_X0*x0 + BETA_X1*x1 + BETA_X2_n*x2 + BETA_X3_n*x3
+
+Num. parameters to be estimated: 4
+Fixed effects params: [&#39;BETA_X0&#39;, &#39;BETA_X1&#39;]
+Random effects params: [&#39;BETA_X2&#39;, &#39;BETA_X3&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once the Specification is defined, we need to define the DCM Dataset object that goes along with it. For this, we instantiate the Dataset class with the Pandas dataframe containing the data in the so-called “wide format”, the name of column in the dataframe containing the observed choices and the dcm_spec that we have previously created.</p>
+<p>Note that since this is panel data, we must also specify the name of the column in the dataframe that contains the ID of the respondent (this should be a integer ranging from 0 the num_resp-1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">core.dcm_interface</span> <span class="kn">import</span> <span class="n">Dataset</span>
+
+<span class="c1"># create DCM dataset object</span>
+<span class="n">dcm_dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="n">dcm_spec</span><span class="p">,</span> <span class="n">resp_id_col</span><span class="o">=</span><span class="s1">&#39;indID&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preparing dataset...
+	Model type: MXL
+	Num. observations: 10000
+	Num. alternatives: 1
+	Num. respondents: 10000
+	Num. menus: 1
+	Observations IDs: [   0    1    2 ... 9997 9998 9999]
+	Alternative IDs: None
+	Respondent IDs: [   0    1    2 ... 9997 9998 9999]
+	Availability columns: None
+	Attribute names: [&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]
+	Fixed effects attribute names: [&#39;x0&#39;, &#39;x1&#39;]
+	Fixed effects parameter names: [&#39;BETA_X0&#39;, &#39;BETA_X1&#39;]
+	Random effects attribute names: [&#39;x2&#39;, &#39;x3&#39;]
+	Random effects parameter names: [&#39;BETA_X2&#39;, &#39;BETA_X3&#39;]
+	Alternative attributes ndarray.shape: (10000, 1, 4)
+	Choices ndarray.shape: (10000, 1)
+	Alternatives availability ndarray.shape: (10000, 1, 1)
+	Data mask ndarray.shape: (10000, 1)
+	Context data ndarray.shape: (10000, 0)
+	Neural nets data ndarray.shape: (10000, 0)
+Done!
+</pre></div>
+</div>
+</div>
+</div>
+<p>As with the specification, we can inspect the DCM dataset by printing the dcm_dataset object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dcm_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>----------------- DCM dataset:
+Model type: MXL
+Num. observations: 10000
+Num. alternatives: 1
+Num. respondents: 10000
+Num. menus: 1
+Num. fixed effects: 2
+Num. random effects: 2
+Attribute names: [&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bayesian-mixed-ordered-logit-model-in-pytorch">
+<h2>Bayesian Mixed Ordered Logit Model in PyTorch<a class="headerlink" href="#bayesian-mixed-ordered-logit-model-in-pytorch" title="Permalink to this headline">¶</a></h2>
+<p>We will modify the generative process of the core MXL model by introducing a vector of <span class="math notranslate nohighlight">\(C-2\)</span> cutoff points <span class="math notranslate nohighlight">\(\boldsymbol\kappa\)</span>, where <span class="math notranslate nohighlight">\(C\)</span> denotes the number of levels in the response variable. The cutoffs will then be used by the <code class="docutils literal notranslate"><span class="pre">OrderedLogit</span></code> function to compute the probabilities of each level.</p>
+<p>The resulting generative process is the following (changes to the core MXL model are highlighted in red):</p>
+<ol class="simple">
+<li><p><font color='red'> Draw cutoff parameters <span class="math notranslate nohighlight">\(\boldsymbol\kappa \sim \mathcal{N}(\boldsymbol\eta_0, \boldsymbol\Phi_0)\)</span> </font></p></li>
+<li><p>Draw fixed taste parameters <span class="math notranslate nohighlight">\(\boldsymbol\alpha \sim \mathcal{N}(\boldsymbol\lambda_0, \boldsymbol\Xi_0)\)</span></p></li>
+<li><p>Draw mean vector <span class="math notranslate nohighlight">\(\boldsymbol\zeta \sim \mathcal{N}(\boldsymbol\mu_0, \boldsymbol\Sigma_0)\)</span></p></li>
+<li><p>Draw scales vector <span class="math notranslate nohighlight">\(\boldsymbol\theta \sim \mbox{half-Cauchy}(\boldsymbol\sigma_0)\)</span></p></li>
+<li><p>Draw correlation matrix <span class="math notranslate nohighlight">\(\boldsymbol\Psi \sim \mbox{LKJ}(\nu)\)</span></p></li>
+<li><p>For each decision-maker <span class="math notranslate nohighlight">\(n \in \{1,\dots,N\}\)</span></p>
+<ol class="simple">
+<li><p>Draw random taste parameters <span class="math notranslate nohighlight">\(\boldsymbol\beta_n \sim \mathcal{N}(\boldsymbol\zeta,\boldsymbol\Omega)\)</span></p></li>
+<li><p>For each choice occasion <span class="math notranslate nohighlight">\(t \in \{1,\dots,T_n\}\)</span></p>
+<ol class="simple">
+<li><p><font color='red'> Draw observed ordered response <span class="math notranslate nohighlight">\(y_{nt} \sim \mbox{OrderedLogit}(\boldsymbol\alpha, \boldsymbol\beta_n, \boldsymbol\kappa, \textbf{X}_{nt})\)</span> </font></p></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\Omega = \mbox{diag}(\boldsymbol\theta) \times \boldsymbol\Psi \times  \mbox{diag}(\boldsymbol\theta)\)</span>.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">OrderedLogit</span></code> probability, we assume:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(y_{nt} = j) &amp;= p(\kappa_{i-1} &lt; \boldsymbol\alpha^T \textbf{x}_{ntj,F} + \boldsymbol\beta_n^T \textbf{x}_{ntj,R} &lt; \kappa_i) \\
+&amp;= \frac{1}{1+\exp(-\kappa_i + \boldsymbol\alpha^T \textbf{x}_{ntj,F} + \boldsymbol\beta_n^T \textbf{x}_{ntj,R})} - \frac{1}{1+\exp(-\kappa_{i-1} + \boldsymbol\alpha^T \textbf{x}_{ntj,F} + \boldsymbol\beta_n^T \textbf{x}_{ntj,R})}
+\end{align}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\kappa_0\)</span> is defined as <span class="math notranslate nohighlight">\(-\infty\)</span> and <span class="math notranslate nohighlight">\(\kappa_C\)</span> as <span class="math notranslate nohighlight">\(+\infty\)</span> (hence, the number of <span class="math notranslate nohighlight">\(\kappa_i\)</span> variables that we need to perform inference on is only <span class="math notranslate nohighlight">\(C-2\)</span>). Note that we use <span class="math notranslate nohighlight">\(\textbf{x}_{ntj,F}\)</span> and <span class="math notranslate nohighlight">\(\textbf{x}_{ntj,R}\)</span> to distinguish between fixed effects and random effects, respectively.</p>
+<p>This model is already implemented in the class <code class="docutils literal notranslate"><span class="pre">TorchMXL_Ordered</span></code>. At the end of this notebook, we provide an explanation of how this extension was implemented.</p>
+<p>We can instantiate this model from the <code class="docutils literal notranslate"><span class="pre">TorchMXL_Ordered</span></code> using the following code. We can the run variational inference to approximate the posterior distribution of the latent variables in the model. Note that since in this case we know the true parameters that were used to generate the simualated choice data, we can pass them to the “infer” method in order to obtain additional information during the ELBO maximization (useful for tracking the progress of VI and for other debugging purposes).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="kn">from</span> <span class="nn">core.torch_mxl_ordered</span> <span class="kn">import</span> <span class="n">TorchMXL_Ordered</span>
+
+<span class="c1"># instantiate MXL model</span>
+<span class="n">num_categories</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">mxl</span> <span class="o">=</span> <span class="n">TorchMXL_Ordered</span><span class="p">(</span><span class="n">dcm_dataset</span><span class="p">,</span> <span class="n">num_categories</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">num_resp</span><span class="p">,</span> <span class="n">use_inference_net</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_cuda</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># run Bayesian inference (variational inference)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mxl</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">num_epochs</span><span class="o">=</span><span class="mi">7000</span><span class="p">,</span> <span class="n">true_alpha</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">true_beta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Epoch     0] ELBO: 56100; Loglik: -20462; Acc.: 0.388; Alpha RMSE: 1.000; Beta RMSE: 0.990
+[Epoch   100] ELBO: 22516; Loglik: -19553; Acc.: 0.388; Alpha RMSE: 0.951; Beta RMSE: 1.046
+[Epoch   200] ELBO: 24147; Loglik: -14972; Acc.: 0.388; Alpha RMSE: 0.864; Beta RMSE: 1.013
+[Epoch   300] ELBO: 15727; Loglik: -13902; Acc.: 0.388; Alpha RMSE: 0.798; Beta RMSE: 0.979
+[Epoch   400] ELBO: 16683; Loglik: -13879; Acc.: 0.388; Alpha RMSE: 0.709; Beta RMSE: 0.985
+[Epoch   500] ELBO: 16292; Loglik: -13459; Acc.: 0.388; Alpha RMSE: 0.621; Beta RMSE: 0.962
+[Epoch   600] ELBO: 16674; Loglik: -13230; Acc.: 0.388; Alpha RMSE: 0.554; Beta RMSE: 0.920
+[Epoch   700] ELBO: 16519; Loglik: -13196; Acc.: 0.388; Alpha RMSE: 0.480; Beta RMSE: 0.897
+[Epoch   800] ELBO: 16110; Loglik: -13011; Acc.: 0.388; Alpha RMSE: 0.441; Beta RMSE: 0.864
+[Epoch   900] ELBO: 15663; Loglik: -12956; Acc.: 0.388; Alpha RMSE: 0.362; Beta RMSE: 0.842
+[Epoch  1000] ELBO: 15560; Loglik: -12768; Acc.: 0.388; Alpha RMSE: 0.304; Beta RMSE: 0.801
+[Epoch  1100] ELBO: 15218; Loglik: -12865; Acc.: 0.388; Alpha RMSE: 0.218; Beta RMSE: 0.818
+[Epoch  1200] ELBO: 15551; Loglik: -12812; Acc.: 0.388; Alpha RMSE: 0.185; Beta RMSE: 0.777
+[Epoch  1300] ELBO: 15486; Loglik: -12795; Acc.: 0.388; Alpha RMSE: 0.154; Beta RMSE: 0.754
+[Epoch  1400] ELBO: 15658; Loglik: -12873; Acc.: 0.388; Alpha RMSE: 0.118; Beta RMSE: 0.735
+[Epoch  1500] ELBO: 15126; Loglik: -12768; Acc.: 0.388; Alpha RMSE: 0.114; Beta RMSE: 0.701
+[Epoch  1600] ELBO: 15156; Loglik: -12858; Acc.: 0.388; Alpha RMSE: 0.097; Beta RMSE: 0.681
+[Epoch  1700] ELBO: 15256; Loglik: -13074; Acc.: 0.388; Alpha RMSE: 0.122; Beta RMSE: 0.651
+[Epoch  1800] ELBO: 15664; Loglik: -13086; Acc.: 0.388; Alpha RMSE: 0.115; Beta RMSE: 0.631
+[Epoch  1900] ELBO: 15132; Loglik: -12921; Acc.: 0.388; Alpha RMSE: 0.139; Beta RMSE: 0.588
+[Epoch  2000] ELBO: 15055; Loglik: -12893; Acc.: 0.388; Alpha RMSE: 0.132; Beta RMSE: 0.545
+[Epoch  2100] ELBO: 15116; Loglik: -12993; Acc.: 0.388; Alpha RMSE: 0.135; Beta RMSE: 0.523
+[Epoch  2200] ELBO: 15692; Loglik: -13045; Acc.: 0.388; Alpha RMSE: 0.161; Beta RMSE: 0.496
+[Epoch  2300] ELBO: 15144; Loglik: -13066; Acc.: 0.388; Alpha RMSE: 0.157; Beta RMSE: 0.455
+[Epoch  2400] ELBO: 15099; Loglik: -13100; Acc.: 0.388; Alpha RMSE: 0.142; Beta RMSE: 0.431
+[Epoch  2500] ELBO: 15055; Loglik: -13017; Acc.: 0.388; Alpha RMSE: 0.137; Beta RMSE: 0.404
+[Epoch  2600] ELBO: 14877; Loglik: -13085; Acc.: 0.388; Alpha RMSE: 0.132; Beta RMSE: 0.374
+[Epoch  2700] ELBO: 14887; Loglik: -13246; Acc.: 0.388; Alpha RMSE: 0.135; Beta RMSE: 0.328
+[Epoch  2800] ELBO: 14818; Loglik: -13222; Acc.: 0.388; Alpha RMSE: 0.114; Beta RMSE: 0.323
+[Epoch  2900] ELBO: 14761; Loglik: -13240; Acc.: 0.388; Alpha RMSE: 0.127; Beta RMSE: 0.290
+[Epoch  3000] ELBO: 14801; Loglik: -13267; Acc.: 0.388; Alpha RMSE: 0.130; Beta RMSE: 0.259
+[Epoch  3100] ELBO: 14677; Loglik: -13307; Acc.: 0.388; Alpha RMSE: 0.126; Beta RMSE: 0.235
+[Epoch  3200] ELBO: 14849; Loglik: -13456; Acc.: 0.388; Alpha RMSE: 0.126; Beta RMSE: 0.201
+[Epoch  3300] ELBO: 14983; Loglik: -13386; Acc.: 0.388; Alpha RMSE: 0.122; Beta RMSE: 0.184
+[Epoch  3400] ELBO: 14618; Loglik: -13325; Acc.: 0.388; Alpha RMSE: 0.117; Beta RMSE: 0.187
+[Epoch  3500] ELBO: 14613; Loglik: -13383; Acc.: 0.388; Alpha RMSE: 0.109; Beta RMSE: 0.147
+[Epoch  3600] ELBO: 14755; Loglik: -13511; Acc.: 0.388; Alpha RMSE: 0.117; Beta RMSE: 0.139
+[Epoch  3700] ELBO: 14570; Loglik: -13450; Acc.: 0.388; Alpha RMSE: 0.102; Beta RMSE: 0.118
+[Epoch  3800] ELBO: 14679; Loglik: -13503; Acc.: 0.388; Alpha RMSE: 0.087; Beta RMSE: 0.099
+[Epoch  3900] ELBO: 14716; Loglik: -13575; Acc.: 0.388; Alpha RMSE: 0.086; Beta RMSE: 0.099
+[Epoch  4000] ELBO: 14712; Loglik: -13595; Acc.: 0.388; Alpha RMSE: 0.083; Beta RMSE: 0.079
+[Epoch  4100] ELBO: 14551; Loglik: -13563; Acc.: 0.388; Alpha RMSE: 0.085; Beta RMSE: 0.079
+[Epoch  4200] ELBO: 14475; Loglik: -13448; Acc.: 0.388; Alpha RMSE: 0.065; Beta RMSE: 0.081
+[Epoch  4300] ELBO: 14515; Loglik: -13579; Acc.: 0.388; Alpha RMSE: 0.074; Beta RMSE: 0.097
+[Epoch  4400] ELBO: 14535; Loglik: -13639; Acc.: 0.388; Alpha RMSE: 0.078; Beta RMSE: 0.088
+[Epoch  4500] ELBO: 14596; Loglik: -13657; Acc.: 0.388; Alpha RMSE: 0.069; Beta RMSE: 0.084
+[Epoch  4600] ELBO: 14530; Loglik: -13648; Acc.: 0.388; Alpha RMSE: 0.071; Beta RMSE: 0.109
+[Epoch  4700] ELBO: 14518; Loglik: -13652; Acc.: 0.388; Alpha RMSE: 0.056; Beta RMSE: 0.090
+[Epoch  4800] ELBO: 14489; Loglik: -13636; Acc.: 0.388; Alpha RMSE: 0.062; Beta RMSE: 0.119
+[Epoch  4900] ELBO: 14567; Loglik: -13659; Acc.: 0.388; Alpha RMSE: 0.054; Beta RMSE: 0.112
+[Epoch  5000] ELBO: 14428; Loglik: -13642; Acc.: 0.388; Alpha RMSE: 0.059; Beta RMSE: 0.132
+[Epoch  5100] ELBO: 14510; Loglik: -13739; Acc.: 0.388; Alpha RMSE: 0.045; Beta RMSE: 0.133
+[Epoch  5200] ELBO: 14503; Loglik: -13712; Acc.: 0.388; Alpha RMSE: 0.055; Beta RMSE: 0.137
+[Epoch  5300] ELBO: 14558; Loglik: -13804; Acc.: 0.388; Alpha RMSE: 0.083; Beta RMSE: 0.156
+[Epoch  5400] ELBO: 14517; Loglik: -13791; Acc.: 0.388; Alpha RMSE: 0.060; Beta RMSE: 0.155
+[Epoch  5500] ELBO: 14517; Loglik: -13768; Acc.: 0.388; Alpha RMSE: 0.061; Beta RMSE: 0.152
+[Epoch  5600] ELBO: 14516; Loglik: -13808; Acc.: 0.388; Alpha RMSE: 0.057; Beta RMSE: 0.161
+[Epoch  5700] ELBO: 14434; Loglik: -13729; Acc.: 0.388; Alpha RMSE: 0.060; Beta RMSE: 0.146
+[Epoch  5800] ELBO: 14447; Loglik: -13768; Acc.: 0.388; Alpha RMSE: 0.073; Beta RMSE: 0.159
+[Epoch  5900] ELBO: 14459; Loglik: -13792; Acc.: 0.388; Alpha RMSE: 0.069; Beta RMSE: 0.167
+[Epoch  6000] ELBO: 14472; Loglik: -13818; Acc.: 0.388; Alpha RMSE: 0.063; Beta RMSE: 0.168
+[Epoch  6100] ELBO: 14475; Loglik: -13813; Acc.: 0.388; Alpha RMSE: 0.066; Beta RMSE: 0.166
+[Epoch  6200] ELBO: 14473; Loglik: -13835; Acc.: 0.388; Alpha RMSE: 0.053; Beta RMSE: 0.163
+[Epoch  6300] ELBO: 14443; Loglik: -13823; Acc.: 0.388; Alpha RMSE: 0.065; Beta RMSE: 0.170
+[Epoch  6400] ELBO: 14468; Loglik: -13811; Acc.: 0.388; Alpha RMSE: 0.075; Beta RMSE: 0.162
+[Epoch  6500] ELBO: 14528; Loglik: -13912; Acc.: 0.388; Alpha RMSE: 0.075; Beta RMSE: 0.176
+[Epoch  6600] ELBO: 14458; Loglik: -13852; Acc.: 0.388; Alpha RMSE: 0.075; Beta RMSE: 0.172
+[Epoch  6700] ELBO: 14395; Loglik: -13817; Acc.: 0.388; Alpha RMSE: 0.065; Beta RMSE: 0.160
+[Epoch  6800] ELBO: 14486; Loglik: -13864; Acc.: 0.388; Alpha RMSE: 0.090; Beta RMSE: 0.172
+[Epoch  6900] ELBO: 14474; Loglik: -13883; Acc.: 0.388; Alpha RMSE: 0.077; Beta RMSE: 0.173
+Elapsed time: 175.0668683052063 
+
+True alpha: [ 1 -1]
+Est. alpha: [ 0.9782518  -0.88276696]
+	BETA_X0: 0.978
+	BETA_X1: -0.883
+
+True zeta: [ 1 -1]
+Est. zeta: [ 1.1570988 -1.1744796]
+	BETA_X2: 1.157
+	BETA_X3: -1.174
+</pre></div>
+</div>
+<img alt="../_images/ordered_logit_13_1.png" src="../_images/ordered_logit_13_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 21min 17s, sys: 1.53 s, total: 21min 18s
+Wall time: 2min 58s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># log(true_cutoffs)=[-0.7 -0.2  0.5]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lets now compare the inferred cutoffs with the true cutoffs:
+log(true_cutoffs) = [-0.7 -0.2  0.5]</p>
+<p>The ones that we infered are:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">mxl</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">mxl</span><span class="o">.</span><span class="n">kappa_mu</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.6353, -0.1080,  0.5551], device=&#39;cuda:0&#39;, grad_fn=&lt;LogBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Quite similar values!</p>
+<p>The “results” dictionary containts a summary of the results of variational inference, including means of the posterior approximations for the different parameters in the model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;Estimation time&#39;: 64.12379693984985,
+ &#39;Est. alpha&#39;: array([ 1.0848361, -0.9402135], dtype=float32),
+ &#39;Est. zeta&#39;: array([ 1.0654774, -1.1859826], dtype=float32),
+ &#39;Est. beta_n&#39;: array([[ 0.7436627 , -1.5113661 ],
+        [ 1.1884117 , -1.5241228 ],
+        [ 0.5740844 , -1.2508584 ],
+        ...,
+        [ 0.94637936, -1.5531573 ],
+        [ 1.308997  , -1.1411221 ],
+        [ 1.1743374 , -1.6200343 ]], dtype=float32),
+ &#39;ELBO&#39;: 14481.8515625,
+ &#39;Loglikelihood&#39;: -13628.396484375,
+ &#39;Accuracy&#39;: 0.38760000467300415}
+</pre></div>
+</div>
+</div>
+</div>
+<p>This interface is currently being improved to include additional output information, but additional information can be obtained from the attributes of the “mxl” object for now.</p>
+</section>
+<section id="implementation-details">
+<h2>Implementation details<a class="headerlink" href="#implementation-details" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./extensions"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="nnet_utility.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Neural networks in utilities</p>
+        </div>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Author<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
