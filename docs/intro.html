@@ -220,11 +220,11 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button"
-            href="https://github.com/fmpr/amortized-mxl"><button type="button" class="btn btn-secondary topbarbtn"
+            href="https://github.com/fmpr/pyDCML"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/fmpr/amortized-mxl/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/fmpr/pyDCML/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -311,7 +311,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <section id="introduction-to-pydcml">
 <h1>Introduction to PyDCML<a class="headerlink" href="#introduction-to-pydcml" title="Permalink to this headline">¶</a></h1>
-<p>PyDCML is a <a class="reference external" href="https://www.python.org/">Python</a> library for <strong>fast implementation and scalable inference of Bayesian Discrete Choice Models</strong> that makes it easy to leverage flexible state-of-the-art modelling techniques from Machine Learning, while remaining interpretable and preserving the links with economic theories established by Daniel McFadden <a class="reference internal" href="#ref1" id="id1"><span>[Ref1]</span></a>.</p>
+<p>PyDCML is a <a class="reference external" href="https://www.python.org/">Python</a> library for <strong>fast implementation and scalable inference of Bayesian Discrete Choice Models</strong> that makes it easy to leverage flexible state-of-the-art modelling techniques from Machine Learning, while remaining interpretable and preserving the links with economic theories established by Daniel McFadden <a class="reference internal" href="usage.html#ref1" id="id1"><span>[Ref1]</span></a>.</p>
 <p>PyDCML uses <a class="reference external" href="https://pytorch.org/">PyTorch</a> on the backend in order to enable stochastic backpropagation, automatic differentiation and GPU-accelerated computation. In doing so, <strong>PyDCML aims at enabling flexible and expressive Choice Modeling, unifying the best of modern Machine Learning and Bayesian modeling with Discrete Choice Theory</strong>.</p>
 <p>PyDCML provides a simple formula interface that allows users to define observed and latent variables (parameters), and use them to easily specify utility functions:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V1</span> <span class="o">=</span> <span class="n">BETA_COST</span><span class="o">*</span><span class="n">ALT1_COST</span> <span class="o">+</span> <span class="n">BETA_DUR</span><span class="o">*</span><span class="n">ALT1_DURATION</span> <span class="o">+</span> <span class="o">...</span>
