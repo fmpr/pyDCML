@@ -9,7 +9,7 @@ PyDCML provides a simple formula interface that allows users to define observed 
 
     V1 = BETA_COST*ALT1_COST + BETA_DUR*ALT1_DURATION + ...
 
-Read the `Documentation <https://fmpr.github.io/pyDCML/intro.html>`_ for additonal details, demos, model extensions, etc.
+Read the `Documentation <https://mlsm.man.dtu.dk/pydcml/intro.html>`_ for additonal details, demos, model extensions, etc.
 
 ######################## 
 Supported models
