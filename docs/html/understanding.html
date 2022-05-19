@@ -1,0 +1,481 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>How PyDCML works &#8212; PyDCML documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Extending PyDCML" href="extending.html" />
+    <link rel="prev" title="Amortized variational inference" href="demos/avi-sim10000.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">PyDCML documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction to PyDCML
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="usage.html">
+   Basic usage
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="demos.html">
+   Demos
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="demos/mxl-sim500.html">
+     Mixed logit with simulated data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="demos/mxl-toyota.html">
+     Mixed logit with Toyota data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="demos/avi-sim10000.html">
+     Amortized variational inference
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   How PyDCML works
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="extending.html">
+   Extending PyDCML
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="extensions.html">
+   Extensions
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="extensions/mxl_ard.html">
+     Mixed logit with ARD
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="extensions/nnet_utility.html">
+     Neural networks in utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="extensions/ordered_logit.html">
+     Mixed ordered logit
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/understanding.rst"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/fmpr/pyDCML"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/fmpr/pyDCML/issues/new?title=Issue%20on%20page%20%2Funderstanding.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-inference-basics">
+   Variational inference basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#anatomy-of-a-pydcml-model">
+   Anatomy of a PyDCML model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-mixed-logit-model">
+   Example: Mixed Logit model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svi-implementation-in-pydcml">
+   SVI implementation in PyDCML
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>How PyDCML works</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variational-inference-basics">
+   Variational inference basics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#anatomy-of-a-pydcml-model">
+   Anatomy of a PyDCML model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-mixed-logit-model">
+   Example: Mixed Logit model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#svi-implementation-in-pydcml">
+   SVI implementation in PyDCML
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <section id="how-pydcml-works">
+<span id="understanding"></span><h1>How PyDCML works<a class="headerlink" href="#how-pydcml-works" title="Permalink to this headline">¶</a></h1>
+<section id="variational-inference-basics">
+<h2>Variational inference basics<a class="headerlink" href="#variational-inference-basics" title="Permalink to this headline">¶</a></h2>
+<p>Exact Bayesian inference of Discrete Choice models is intractable. PyDCML uses Stochastic Variational Inference (SVI) in order to approximate the posterior distrubiton of the model parameters. Let <span class="math notranslate nohighlight">\(\textbf{z}\)</span> and <span class="math notranslate nohighlight">\(\textbf{y}\)</span> denote the model parameters (latent variables) and the oberved choices, respectively. In VI, we construct an approximation to the true posterior distribution <span class="math notranslate nohighlight">\(p(\textbf{z}|\textbf{y})\)</span> by considering a family of tractable distributions <span class="math notranslate nohighlight">\(q_{\boldsymbol\phi}(\textbf{z})\)</span> parameterized by <span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span>. The inference problem is then reduced to an optimization problem, where the goal is find the parameters <span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span> of the variational approximation <span class="math notranslate nohighlight">\(q_{\boldsymbol\phi}(\textbf{z})\)</span> that make it as close as possible to the true posterior.</p>
+<a class="reference internal image-reference" href="_images/vi_q_approx.png"><img alt="VI posterior approximation" class="align-center" src="_images/vi_q_approx.png" style="width: 400px;" /></a>
+<p>The closeness between two distributions - in this case the approximate posterior and the true posterior - can be measured by the Kullback-Leibler (KL) divergence, which is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{KL}(q_{\boldsymbol\phi}(\textbf{z})||p(\textbf{z}|\textbf{y})) = \int q_{\boldsymbol\phi}(\textbf{z}) \log \frac{q_{\boldsymbol\phi}(\textbf{z})}{p(\textbf{z}|\textbf{y})} \, d\textbf{z}.\]</div>
+<p>Unfortunately, the KL divergence above cannot be minimized directly. However, we can find a function that we can minimize, which is equal to it up to an additive constant:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{KL}(q_{\boldsymbol\phi}(\textbf{z})||p(\textbf{z}|\textbf{y})) = -(\underbrace{\mathbb{E}_q [\log p(\textbf{y},\textbf{z})] - \mathbb{E}_q [\log q_{\boldsymbol\phi}(\textbf{z})]}_{\mbox{ELBO}}) + \underbrace{\log p(\textbf{y})}_{\mbox{const.}}.\]</div>
+<p>The <span class="math notranslate nohighlight">\(\log p(\textbf{y})\)</span> term does not depend on <span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span> and thus can be ignored. Minimizing the KL divergence is then equivalent to maximizing the evidence lower bound (ELBO).</p>
+<p>Check out the following paper for additional details: Rodrigues, F. Scaling Bayesian inference of mixed multinomial logit models to large datasets. In Transportation Research Part B: Methodological, 2022.</p>
+</section>
+<section id="anatomy-of-a-pydcml-model">
+<h2>Anatomy of a PyDCML model<a class="headerlink" href="#anatomy-of-a-pydcml-model" title="Permalink to this headline">¶</a></h2>
+<p>Models in PyDCML are defined as Python classes containing (at least) the following key methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">initialize_variational_distribution_q()</span></code> - initializes the parameters of the variational distribution <span class="math notranslate nohighlight">\(q_{\boldsymbol\phi}(\textbf{z})\)</span>.</p></li>
+</ul>
+<p>For example, one may wish to define the mean vector <span class="math notranslate nohighlight">\(\boldsymbol\mu\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol\Sigma\)</span> (which we parameterize through its lower-Cholesky factorization) of a multivariate Gaussian distribution to approximate the posterior distribution over the fixed-effects parameters <span class="math notranslate nohighlight">\(\boldsymbol\alpha\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_mu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">alpha_cov_diag</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">alpha_cov_offdiag</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">torch.nn.Parameter</span></code> is a PyTorch class that defines a learnable parameter (i.e., with respect to which we can compute gradients and perform gradient-based optimization through the automatic differentiation capabilities of PyTorch).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_variational_approximation_q(alt_attr,</span> <span class="pre">context_attr,</span> <span class="pre">obs_choices,</span> <span class="pre">alt_avail,</span> <span class="pre">alt_ids)</span></code> - computes the variational distribution <span class="math notranslate nohighlight">\(q_{\boldsymbol\phi}(\textbf{z})\)</span> given the current variational parameters <span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span>.</p></li>
+</ul>
+<p>For example, we can use the variational parameters defined above to construct the multivariate Gaussian approximation <span class="math notranslate nohighlight">\(q(\boldsymbol\alpha) = \mathcal{N}(\boldsymbol\mu,\boldsymbol\Sigma)\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha_cov_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_fixed_params</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">alpha_cov_tril</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tril_indices_alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tril_indices_alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_cov_offdiag</span>
+<span class="n">alpha_cov_tril</span> <span class="o">+=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_cov_diag</span><span class="p">))</span>
+<span class="n">q_alpha</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha_mu</span><span class="p">,</span> <span class="n">scale_tril</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">alpha_cov_tril</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">elbo(alt_attr,</span> <span class="pre">context_attr,</span> <span class="pre">obs_choices,</span> <span class="pre">alt_avail,</span> <span class="pre">obs_mask,</span> <span class="pre">alt_ids,</span> <span class="pre">indices)</span></code> - computes a stochastic approximation to the evidence lower bound (ELBO) used by variational inference to optimize the parameters of the variational approximation <span class="math notranslate nohighlight">\(q_{\boldsymbol\phi}(\textbf{z}|\textbf{y})\)</span>. This function is where the model is defined. See the following sections for a detailed explaination of how it works.</p></li>
+</ul>
+<p>Note that for practical implementation reasons that will becomes apparent later, it is more convinient to re-write the ELBO as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mbox{ELBO} &amp;= \mathbb{E}_q [\log p(\textbf{y},\textbf{z})] - \mathbb{E}_q [\log q_{\boldsymbol\phi}(\textbf{z})] \\\\
+&amp;= \mathbb{E}_q [\log p(\textbf{y}|\textbf{z})] - \mathbb{KL}(q_{\boldsymbol\phi}(\textbf{z})||p(\textbf{z})),\end{split}\]</div>
+<p>where the first term is just the expected log-likelihood of the model, while second term is simply the KL-divergence between the variational distribution and the prior (which in many cases has a closed form analytical solution and, therefore, does not require a Monte Carlo approximation).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">infer(num_epochs=10000,</span> <span class="pre">true_alpha=None,</span> <span class="pre">true_beta=None,</span> <span class="pre">true_beta_resp=None)</span></code> - performs variational inference (optimization loop) and outputs the final results. The optimization makes use of PyTorch’s automatic differentiation capabalities. In summary, the optimization loop consists in using a subset of the data (called “mini-batch”) to approximate the ELBO, and then taking a step in the direction provided by the gradient of the ELBO with respect to the variational parameters.</p></li>
+</ul>
+</section>
+<section id="example-mixed-logit-model">
+<h2>Example: Mixed Logit model<a class="headerlink" href="#example-mixed-logit-model" title="Permalink to this headline">¶</a></h2>
+<p>The standard Mixed Logit model that PyDCML implements has the following generative process:</p>
+<ol class="arabic">
+<li><p>Draw fixed taste parameters <span class="math notranslate nohighlight">\(\boldsymbol\alpha \sim \mathcal{N}(\boldsymbol\lambda_0, \boldsymbol\Xi_0)\)</span></p></li>
+<li><p>Draw mean vector <span class="math notranslate nohighlight">\(\boldsymbol\zeta \sim \mathcal{N}(\boldsymbol\mu_0, \boldsymbol\Sigma_0)\)</span></p></li>
+<li><p>Draw scales vector <span class="math notranslate nohighlight">\(\boldsymbol\theta \sim \mbox{half-Cauchy}(\boldsymbol\sigma_0)\)</span></p></li>
+<li><p>Draw correlation matrix <span class="math notranslate nohighlight">\(\boldsymbol\Psi \sim \mbox{LKJ}(\nu)\)</span></p></li>
+<li><p>For each decision-maker <span class="math notranslate nohighlight">\(n \in \{1,\dots,N\}\)</span></p>
+<blockquote>
+<div><ol class="loweralpha">
+<li><p>Draw random taste parameters <span class="math notranslate nohighlight">\(\boldsymbol\beta_n \sim \mathcal{N}(\boldsymbol\zeta,\boldsymbol\Omega)\)</span></p></li>
+<li><p>For each choice occasion <span class="math notranslate nohighlight">\(t \in \{1,\dots,T_n\}\)</span></p>
+<blockquote>
+<div><ol class="lowerroman simple">
+<li><p>Draw observed choice <span class="math notranslate nohighlight">\(y_{nt} \sim \mbox{MNL}(\boldsymbol\alpha, \boldsymbol\beta_n, \textbf{X}_{nt})\)</span></p></li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol\Omega = \mbox{diag}(\boldsymbol\theta) \times \boldsymbol\Psi \times  \mbox{diag}(\boldsymbol\theta)\)</span>.</p>
+<p>According to this generative process, and letting <span class="math notranslate nohighlight">\(\textbf{z} = \{\boldsymbol\alpha,\boldsymbol\zeta,\boldsymbol\tau,\boldsymbol\Psi,\boldsymbol\beta_{1:N}\}\)</span> denote the set of all latent variables in the model, the joint distribution factorises as</p>
+<div class="math notranslate nohighlight">
+\[p(\textbf{y}_{1:N}, \textbf{z}) = p(\boldsymbol\alpha|\boldsymbol\lambda_0, \boldsymbol\Xi_0) \, p(\boldsymbol\zeta|\boldsymbol\mu_0, \boldsymbol\Sigma_0) \, p(\boldsymbol\tau|\boldsymbol\sigma_0) \, p(\boldsymbol\Psi|\nu) \prod_{n=1}^N p(\boldsymbol\beta_n|\boldsymbol\zeta,\boldsymbol\Omega) \prod_{t=1}^T p(y_{nt}|\textbf{X}_{nt}, \boldsymbol\alpha, \boldsymbol\beta_n),\]</div>
+<p>where we introduced the vector notation <span class="math notranslate nohighlight">\(\textbf{y}_n = (y_{n1},\dots,y_{nT})^T\)</span>.</p>
+<p>The goal of Bayesian inference is then to compute the posterior distribution of <span class="math notranslate nohighlight">\(\textbf{z}\)</span> given a dataset of observed choices. For VI, we will consider the following fully-factorized variational distribution (i.e., mean-field approximation):</p>
+<div class="math notranslate nohighlight">
+\[q_{\boldsymbol\phi}(\textbf{z}) = q(\boldsymbol\alpha) \, q(\boldsymbol\zeta) \, q(\boldsymbol\tau) \, q(\boldsymbol\Psi) \prod_{n=1}^N q(\boldsymbol\beta_n).\]</div>
+<p>The ELBO is then given by</p>
+<div class="math notranslate nohighlight">
+\[\mbox{ELBO} = \mathbb{E}_q [\log p(\textbf{y}|\textbf{z})] - \mathbb{KL}(q_{\boldsymbol\phi}(\textbf{z})||p(\textbf{z})).\]</div>
+<p>Making use of the factorizations of the joint distribution of the model and the variational distribution, we can expand the ELBO as a sum of simpler terms:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mbox{ELBO} &amp;= \mathbb{E}_q [\log p(\textbf{y}|\textbf{z})] - \mathbb{KL}(q(\boldsymbol\alpha)||p(\boldsymbol\alpha|\boldsymbol\lambda_0, \boldsymbol\Xi_0)) - \mathbb{KL}(q(\boldsymbol\zeta)||p(\boldsymbol\zeta|\boldsymbol\mu_0, \boldsymbol\Sigma_0)) \\\\
+&amp;- \mathbb{KL}(q(\boldsymbol\tau)||p(\boldsymbol\tau|\boldsymbol\sigma_0)) - \mathbb{KL}(q(\boldsymbol\Psi)||p(\boldsymbol\Psi|\nu)) - \sum_{n=1}^N \mathbb{KL}(q(\boldsymbol\beta_n)||p(\boldsymbol\beta_n|\boldsymbol\zeta,\boldsymbol\Omega)).\end{split}\]</div>
+<p>The goal of the <code class="docutils literal notranslate"><span class="pre">elbo()</span></code> function will be to compute the ELBO defined above (actually, it will compute a Monte Carlo approximation), which will then be used to perform stochastic gradient-based updates of the variational parameters <span class="math notranslate nohighlight">\(\boldsymbol\phi\)</span>. See the next section for the implementation details.</p>
+</section>
+<section id="svi-implementation-in-pydcml">
+<h2>SVI implementation in PyDCML<a class="headerlink" href="#svi-implementation-in-pydcml" title="Permalink to this headline">¶</a></h2>
+<p>Under development.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="demos/avi-sim10000.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Amortized variational inference</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="extending.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extending PyDCML</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Author<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
