@@ -107,6 +107,23 @@ class RandomEffect(Variable):
     
     def __str__(self):
         return self.name+'[RandomEffect]'
+    
+    
+class NeuralNetwork(Variable):
+    
+    def __init__(self, name):
+        self.inputs = {}
+        super().__init__(name)
+        
+        
+    def __call__(self, alt, *args):
+        self.alt = alt
+        self.inputs[alt] = args
+        return Expression([self])
+    
+    
+    def __str__(self):
+        return self.name
 
 
 class Specification():
@@ -124,6 +141,7 @@ class Specification():
         
         # extract important info from utilities
         self.columns_to_extract = []
+        self.neural_nets = {}
         self.alt_id_map = []
         self.param_id_map = []
         self.random_var_to_param_id = {}
@@ -136,6 +154,12 @@ class Specification():
         for alt in self.utilities:
             v = self.utilities[alt]
             for term in v.expr:
+                if type(term) == NeuralNetwork:
+                    if alt not in self.neural_nets:
+                        self.neural_nets[alt] = []
+                    self.neural_nets[alt].append(term)
+                    continue
+                    
                 fixed_effects = []
                 random_effects = []
                 attributes = []
@@ -224,7 +248,7 @@ class SearchSpace(Specification):
 class Dataset():
 
     def __init__(self, dataframe, choice_col, dcm_spec, 
-                 _format='wide', obs_id_col=None, alt_id_col=None, resp_id_col=None, context_cols=None, variables_to_be_shifted = None, availability_cols=None):
+                 _format='wide', obs_id_col=None, alt_id_col=None, resp_id_col=None, context_cols=None, availability_cols=None):
         print("Preparing dataset...")
         
         self.df = dataframe
@@ -266,6 +290,19 @@ class Dataset():
         print("\tRespondent IDs:", self.resp_ids)
         print("\tAvailability columns:", self.availability_cols)
         
+        self.nnet_attr_names = []
+        self.attr_to_nnet_map = []
+        self.nnet_attr_to_alt_map = []
+        for alt in self.dcm_spec.neural_nets:
+            for nnet in self.dcm_spec.neural_nets[alt]:
+                self.nnet_attr_names.extend([obs_var.name for obs_var in nnet.inputs[alt]])
+                self.attr_to_nnet_map.extend([nnet.name for i in range(len(nnet.inputs[alt]))])
+                self.nnet_attr_to_alt_map.extend([dcm_spec.alt_names.index(alt) for i in range(len(nnet.inputs[alt]))])
+
+        self.nnet_attr_names = np.array(self.nnet_attr_names)
+        self.attr_to_nnet_map = np.array(self.attr_to_nnet_map)
+        self.nnet_attr_to_alt_map = np.array(self.nnet_attr_to_alt_map)
+        
         self.attr_names = []
         self.fixed_attr_names = []
         self.fixed_param_names = []
@@ -274,6 +311,9 @@ class Dataset():
         for alt in self.dcm_spec.utilities:
             v = self.dcm_spec.utilities[alt]
             for term in v.expr:
+                if type(term) == NeuralNetwork:
+                    continue
+                    
                 param_factor = None
                 obs_vars = []
                 for factor in term:
@@ -320,17 +360,6 @@ class Dataset():
         self.num_fixed_attr = len(self.fixed_attr_names)
         self.num_mixed_attr = len(self.mixed_attr_names)
         
-        param_ids   = list(self.dcm_spec.fixed_param_ids) + list(self.dcm_spec.mixed_param_ids)
-        
-        param_names = list(self.dcm_spec.fixed_param_names) + list(self.dcm_spec.mixed_param_names)
-        param_names = [el[5:] for el in param_names]
-        
-        param_dict = dict(zip(param_names, param_ids))
-        
-        if variables_to_be_shifted is not None:
-            self.params_to_shift = variables_to_be_shifted 
-            self.idx_to_shift = [param_dict[key] for key in self.params_to_shift]
-        
         print("\tAttribute names:", self.attr_names)
         print("\tFixed effects attribute names:", self.fixed_attr_names)
         print("\tFixed effects parameter names:", self.fixed_param_names)
@@ -345,6 +374,7 @@ class Dataset():
             true_choices = []
             mask = []
             context = []
+            nnet_inputs = []
             
             for resp_id in np.unique(self.resp_ids):
                 alt_availability.append([])
@@ -352,6 +382,7 @@ class Dataset():
                 true_choices.append([])
                 mask.append([])
                 context.append([])
+                nnet_inputs.append([])
 
                 t = 0
                 for ix,row in self.df[self.resp_ids == resp_id].iterrows():
@@ -364,6 +395,8 @@ class Dataset():
                     mask[-1].append(1)
                     if self.context_cols != None:
                         context[-1].append(row[self.context_cols])
+                    if len(self.nnet_attr_names) > 0:
+                        nnet_inputs[-1].append(row[self.nnet_attr_names])
 
                     t += 1
 
@@ -375,6 +408,8 @@ class Dataset():
                     mask[-1].append(0)
                     if self.context_cols != None:
                         context[-1].append(np.zeros(len(self.context_cols)))
+                    if len(self.nnet_attr_names) > 0:
+                        nnet_inputs[-1].append(np.zeros(len(self.nnet_attr_names)))
 
                     t += 1
 
@@ -389,6 +424,8 @@ class Dataset():
             print('\tData mask ndarray.shape:', self.mask.shape)
             self.context = np.array(context)
             print('\tContext data ndarray.shape:', self.context.shape)
+            self.nnet_inputs = np.array(nnet_inputs)
+            print('\tNeural nets data ndarray.shape:', self.nnet_inputs.shape)
             
         else:
             raise Exception('Argument _format must be either "wide" or "long".')
@@ -406,7 +443,6 @@ class Dataset():
         s += 'Num. fixed effects: '+str(self.num_fixed_attr)+'\n'
         s += 'Num. random effects: '+str(self.num_mixed_attr)+'\n'
         s += 'Attribute names: '+str(self.attr_names)#+'\n'
-        #s += 'Attributes to be shifted: '+str(self.params_to_shift)#+'\n'
         #s += 'Fixed effects attribute names: '+str(self.fixed_attr_names)+'\n'
         #s += 'Fixed effects parameter names: '+str(self.fixed_param_names)+'\n'
         #s += 'Random effects attribute names: '+str(self.mixed_attr_names)+'\n'
