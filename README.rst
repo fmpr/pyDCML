@@ -23,7 +23,7 @@ Besides core implementations of Multinomial Logit (MNL) and Mixed Logit (MXL) mo
 
 Coming soon: 
 
-* Context-aware Bayesian mixed multinomial logit model (see [Ref5])
+* Context-aware Bayesian mixed multinomial logit model (see [Ref5]_)
 
 All these model extensions leverage PyDCML's flexibility and modular design. See `How PyDCML works <https://fmpr.github.io/pyDCML/understanding.html>`_ for a detailed explanation of how PyDCML is implemented, and check out `Extending PyDCML <https://fmpr.github.io/pyDCML/extending.html>`_ for a tutorial on how to extend and implement new models in PyDCML. 
 
