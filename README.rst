@@ -21,6 +21,10 @@ Besides core implementations of Multinomial Logit (MNL) and Mixed Logit (MXL) mo
 * Mixed Logit models with Automatic Relevance Determination (originally proposed in [Ref3]_ for MNL models)
 * Mixed Logit models with ordered responses
 
+Coming soon: 
+
+* Context-aware Bayesian mixed multinomial logit model (see [Ref5])
+
 All these model extensions leverage PyDCML's flexibility and modular design. See `How PyDCML works <https://fmpr.github.io/pyDCML/understanding.html>`_ for a detailed explanation of how PyDCML is implemented, and check out `Extending PyDCML <https://fmpr.github.io/pyDCML/extending.html>`_ for a tutorial on how to extend and implement new models in PyDCML. 
 
 ######################## 
@@ -48,4 +52,6 @@ References
 .. [Ref3] Rodrigues, F., Ortelli, N., Bierlaire, M. and Pereira, F.C. Bayesian automatic relevance determination for utility function specification in discrete choice models. IEEE Transactions on Intelligent Transportation Systems, 2020.
 
 .. [Ref4] Rodrigues, F. Scaling Bayesian inference of mixed multinomial logit models to large datasets. In Transportation Research Part B: Methodological, 2022.
+
+.. [Ref5] Łukawska, M., Jensen, A. F., & Rodrigues, F. Context-aware Bayesian mixed multinomial logit model. In Journal of Choice Modelling, 2025.
 
